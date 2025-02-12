@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+
+  <script>
+    
+// HEAD RECURSION
+
+function rec2(n) {
+                  if (n > 0) {
+                    console.log("HEAD " + n);
+                    rec2(n - 1);
+                  }
+                }
+
+    // function rec2(n) {
+    //   // 4
+    //   if (n > 0) {
+    //     console.log(n);
+    //     function rec2(n) {
+    //       // 3
+    //       if (n > 0) {
+    //         console.log(n);
+    //         function rec2(n) {
+    //           // 2
+    //           if (n > 0) {
+    //             console.log(n);
+    //             function rec2(n) {
+    //               // 1
+    //               if (n > 0) {
+    //                 console.log(n);
+    //                 rec2(n - 1);
+    //               }
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+
+
+    // TAIL RECURSION
+    function rec1(n) {
+                  if (n > 0) {
+                    rec1(n - 1);
+                    console.log("TAIL " +n);
+                  }
+                }
+
+    // function rec1(n) {
+    //   // 4
+    //   if (n > 0) {
+    //     function rec1(n) {
+    //       // 3
+    //       if (n > 0) {
+    //         function rec1(n) {
+    //           // 2
+    //           if (n > 0) {
+    //             function rec1(n) {
+    //               // 1
+    //               if (n > 0) {
+    //                 rec1(n - 1);
+    //                 console.log(n);
+    //               }
+    //             }
+    //             console.log(n);
+    //           }
+    //         }
+    //         console.log(n);
+    //       }
+    //     }
+
+    //     console.log(n);
+    //   }
+    // }
+
+    rec1(4);
+    console.log("******************")
+    rec2(4);
+    console.log("******************")
+
+  </script>
+
+
+
+<script>
+
+    function treerec(n){
+        if(n>0)
+            {
+                console.log("tree " + n);
+                treerec(n-1)
+                treerec(n-1)
+            }
+         }
+
+
+         function treerec(n){
+            if(n>0)
+                {
+                    console.log(n)
+                    treerec(n-1)
+                    treerec(n-1)
+                }
+         }
+
+
+
+    treerec(4)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+console.log("**********")
+
+
+
+
+
+
+
+
+    function rec(n) { n = rec()
+        if (n > 0) {
+            console.log(n);
+      rec(rec(n - 1));
+       
+        }
+      }
+
+      rec(4)
+
+</script>
+</html>
