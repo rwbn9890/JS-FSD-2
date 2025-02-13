@@ -8,8 +8,33 @@
     <title>Document</title>
 </head>
 <body>
+
+
+    <div style="border:1px solid red;" id="web">
+
+    </div>
     
 </body>
+
+
+<script>
+    let input = 1;
+    document.getElementById("web").innerHTML = input ? success() : error();
+
+
+
+
+    const success = () =>{
+        return "<h1>login successfull </h1>"
+    }
+
+    const error = () =>{
+        return "<h2>there is error</h2>"
+    }
+
+    
+
+</script>
 
 <script>
 
@@ -17,21 +42,32 @@
 
 
 
-function first(){
-    console.log("first is called")
-}
+// function first(){
+//     console.log("first is called")
+// }
 
-first();
-
-
-
-(function(n){
-    console.log("iime function "+n)
-})(5*5)
+// first();
 
 
 
+// (function(n){
+//     console.log("iime function "+n)
+// })(5*5)
 
+
+// ((n)=>{
+//     console.log("iime function "+n)
+// })(5*5)
+
+
+// let fun = function(){
+
+// }
+
+
+// let fun1 = () => {
+
+// }
 
 
 
