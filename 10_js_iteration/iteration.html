@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    
+</body>
+
+<script>
+
+
+    let name  = ["Amit", "rajvi", "Mujju", "Hitisha", "aara", "vibhuti"]
+
+let name2 =[]
+//    let name2 = name.map((ele) => ele.toLocaleUpperCase())
+ name.forEach((ele) => {
+    name2.push(ele)
+    console.log(ele.toLocaleUpperCase())
+    
+})
+
+
+
+// let name3 = name.filter((ele) =>{
+//     if(ele.length < 5)
+//     {
+//         return ele
+//     }
+// })
+
+let name3 = name.filter(ele => ele.length <5)
+
+    console.log(name3)
+
+
+    name3.forEach((ele) => {
+        document.write(`<h2>${ele}</h2>`)
+    }) 
+
+
+
+</script>
+</html>
