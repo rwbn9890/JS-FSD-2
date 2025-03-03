@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+
+        .container
+        {
+            width: 1000px;
+            margin: auto;
+            border: 1px solid red;
+            display: flex;
+            align-items: center;
+            
+        }
+
+        .main_slider{
+            border: 1px solid green;
+            overflow-x: auto;
+        }
+        .slider{
+            border:1px solid orange;
+            width: 4000px;
+            display: flex;
+             transition: all 0.4s;
+        }
+
+        .slides{
+            width: 100%;
+            border:1px solid pink;
+        }
+        .slides img{
+            width: 100%;
+        }
+
+        .p-10{
+            padding: 10px;
+        }
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    
+
+    <div class="container">
+    
+        <button onclick="prev()">⬅️</button>
+        <div class="main_slider">
+            <div class="slider">
+                <div class="slides">
+                    1<img src="https://media.istockphoto.com/id/1161878589/photo/bueatiful-tea-plantation-on-mountain.jpg?s=2048x2048&w=is&k=20&c=S3Zow4qlkOvWySLGoM4MCERydeHBxRbQUjnSKH2vbNY=" alt="">
+                </div>
+                <div class="slides">
+                    2<img src="https://media.istockphoto.com/id/92269080/photo/journey.jpg?s=2048x2048&w=is&k=20&c=8eh8FRUcsGYOjNxbUjl4jnuJ7lnNOQYbfWAXIJx7afw=" alt="">
+                </div>
+                <div class="slides">
+                   3 <img src="https://media.istockphoto.com/id/1031430214/photo/young-woman-kayaking-through-the-backwaters-of-monroe-island.jpg?s=2048x2048&w=is&k=20&c=PdfRF9VqMu2q-i_tH74CWVfROwzPAByhfkD5xXeCDBU=" alt="">
+                </div>
+                <div class="slides">
+                    4<img src="https://media.istockphoto.com/id/2080203761/photo/woman-walking-in-coconut-tree-grove-on-tropical-island.jpg?s=2048x2048&w=is&k=20&c=POmiNz2mPjeShev9fbDWBP8l0ruRTQT2aLHcp68CcPs=" alt="">
+                </div>
+            </div>
+        </div> 
+        <button onclick="next()">➡️</button>
+    </div>
+    <button onclick="first(0)">1</button>
+    <button onclick="first(1)">2</button>
+    <button onclick="first(2)">3</button>
+    <button onclick="first(3)">4</button>
+
+</body>
+
+<script>
+let slider = document.querySelector(".slider");
+
+let n = 0;
+
+    function next(){    
+        if(n < 3 ){
+             n++; 
+             slider.style.transition= `all 0.4s`;
+        }
+         else{
+             n = 0;
+             slider.style.transition= `all 0s`;
+        }
+         slider.style.transform = `translateX(-${1000*n}px)`
+
+    }
+
+
+    function prev(){ 
+       
+        if(n>0){
+            n--;  
+            slider.style.transition= `all 0.4s`;
+        }
+         else{ 
+             n = 3    
+             slider.style.transition= `all 0s`;
+        }
+   slider.style.transform = `translateX(-${1000*n}px)`
+    }
+
+
+    function first(n)
+    {
+        slider.style.transform = `translateX(-${1000*n}px)`
+    }
+
+
+
+</script>
+</html>
