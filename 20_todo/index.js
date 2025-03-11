@@ -4,19 +4,49 @@
 let task = document.getElementById("task")
 let add = document.getElementById("add")
 let tbody = document.getElementById("tbody")
+let priority = document.getElementById("priority")
 
 
 add.addEventListener("click", addTask)
 
 
-let task_arr = [];
+let task_arr = JSON.parse(localStorage.getItem("task_arr")) || []
 
 
+
+showTask(task_arr)
+function setLocal(ta){
+    localStorage.setItem("task_arr", JSON.stringify(ta))
+    showTask(task_arr)
+}
+
+
+
+function sorting(){
+  let newArr = task_arr.sort((a,b) => b.pri - a.pri)
+
+ setLocal(newArr)
+    
+}
+
+
+let a= 10;
+let b = 20;
+
+b = b-a // 20 - 10 == 10
+a = b = 20
+
+
+
+priority.addEventListener("change", function(e){
+    console.log(e.target.value)
+})
 
 function addTask(){
 
     let obj = {
         id: Math.round(Math.random()*1000),
+        pri: priority.value,
         text : task.value,
         status : false
     }
@@ -29,14 +59,15 @@ else{
         if(ele.id == task.name)
         {
             ele.text = task.value;
+            ele.pri = priority.value;
         }
         return ele;
     })
 }
     
 
+setLocal(task_arr)
 
-    showTask(task_arr)
 
 }
 
@@ -51,7 +82,7 @@ function changeStatus(e){
             return ele     
     })
 
-showTask(task_arr)
+    setLocal(task_arr)
 }
 
 /////////// change status ended ////////////////////
@@ -63,7 +94,7 @@ showTask(task_arr)
 function deleteTask(e){
    task_arr =  task_arr.filter((ele) => ele.id != e)
 
-  showTask(task_arr)
+   setLocal(task_arr)
 }
 
 
@@ -106,10 +137,20 @@ function showTask(array){
             let td_delete = document.createElement("td"); 
             let btn_edit = document.createElement("button"); 
             let btn_delete = document.createElement("button"); 
+            let span = document.createElement("span");
 
 
 
             td_text.textContent = ele.text;
+            td_text.className="position-relative"
+           
+            span.textContent = ele.pri=="1" ? "High" : ele.pri=="2" ? "Mid" : "Low";
+            span.className = ele.pri == "3" 
+                                            ? "badge text-bg-secondary position-absolute top-0 start-0 translate-middle"
+                                            : ele.pri == "2" ?
+                                                "badge text-bg-warning position-absolute top-0 start-0 translate-middle"
+                                                : 
+                                                "badge text-bg-danger position-absolute top-0 start-0 translate-middle"
             btn_edit.textContent="✒️";
             btn_edit.setAttribute("class", "btn btn-primary btn-sm")
             btn_delete.textContent="🗑️"
@@ -117,7 +158,7 @@ function showTask(array){
 
             td_status.textContent = ele.status ? "Completed" : "not completed";
 
-
+            td_text.append(span)
             td_status.onclick = () => changeStatus(ele.id)
             btn_delete.onclick = () => deleteTask(ele.id);
             btn_edit.onclick = () => editTask(ele)
@@ -130,7 +171,7 @@ function showTask(array){
 
              if(ele.status)
              {
-                 tr.setAttribute("class", 'table-success')
+                 tr.setAttribute("class", 'table-success text-decoration-line-through');
              }
              else{
                 tr.setAttribute("class", 'table-warning')
@@ -139,9 +180,6 @@ function showTask(array){
         tbody.append(tr)   
         task.value=""      
    })
-
-
-
 }
 
 

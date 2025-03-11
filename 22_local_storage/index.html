@@ -9,19 +9,34 @@
 </head>
 <body>
 
-    <input type="text" id="img" placeholder="item imag">
-    <input type="text" id="item" placeholder="item name">
-    <input type="text" id="price" placeholder="price"/>
-    <input type="text" id="rate" placeholder="rate" />
+    <div class="container mt-2 row g-3 row-cols-lg-3 row-cols-md-2 row-cols-1">
+        <div class="col">
+            <input class="form-control" name="" type="text" id="img" placeholder="item imag">
+        </div>
+        <div class="col">
+            <input class="form-control" type="text" id="item" placeholder="item name">
+        </div>
+        <div class="col">
+            <input class="form-control" type="text" id="price" placeholder="price"/>
+        </div>
+        <div class="col">
+            <input class="form-control" type="text" id="rate" placeholder="rate" />
+        </div>
+        <div class="col">
+            <button class="btn btn-success" onclick="add()">➕</button>
+        </div>
+    </div>
+   
 
-    <button onclick="add()">➕</button>
+    
 
 
     <hr>
 
-    <div class="row g-2 p-2" id="show">
-       
+    <div class="container">
+      <div class="row row-cols-lg-4 row-cols-md-4 row-cols-sm-2 row-cols-2 g-2 p-2" id="show"></div>  
     </div>
+    
 
 </body>
 
@@ -35,26 +50,46 @@ let show = document.getElementById("show")
     {
         localStorage.setItem("arr", JSON.stringify(array))
         showItem(arr)
+        location.reload()
     }
 
-
+let img = document.getElementById("img")
+let item = document.getElementById("item")
+let price = document.getElementById("price")
+let rate = document.getElementById("rate")
 
 
 
 function add(){
 
+    if(document.getElementById("img").value=="") return;
+
     let obj = {
         id:Math.round(Math.random()*10000),
-        img :document.getElementById("img").value,
-        item :document.getElementById("item").value,
-        price :document.getElementById("price").value,
-        rate :document.getElementById("rate").value
+        img :img.value,
+        item :item.value,
+        price :price.value,
+        rate :rate.value
     }
 
+if(img.name != "")
+{
+  let newArr=  arr.map((ele) =>{
+        if(ele.id == img.name)
+        {
+            ele = obj;
+        }
+        return ele;
+   })
+   setLocal(newArr)
+}
+else{
     arr.push(obj)
-
     setLocal(arr)
+}
 
+
+    
 }
 
 
@@ -67,11 +102,22 @@ function del(id){
 }
 
 
+function edit(id){
+    let newObj = arr.find((ele) => ele.id == id)
+    console.log(newObj)
+    img.value = newObj.img
+    item.value = newObj.item
+    price.value = newObj.price
+    rate.value = newObj.rate
+    img.name=id;
+}
+
+
 function showItem(){
 show.innerHTML=""
     arr.map((ele) => {
     const card = `
-     <div class="col-6">
+     <div class="col">
             <div class="card position-relative" >
                 <button onclick="del(${ele.id})" class="position-absolute btn btn-outline-secondary rounded-circle btn-sm" style="right:10px;top:10px">🗑️</button>
                 <img class="card-img-top" src=${ele.img} alt="Card image cap">
@@ -79,7 +125,8 @@ show.innerHTML=""
                   <b class="card-title">${ele.price}</b>
                   <b class="card-title">${ele.rate}</b>
                   <p class="card-text">${ele.item}</p>
-                  <a href="#" class="btn btn-primary">MOre</a>
+                  <a onclick="edit(${ele.id})" class="btn btn-light btn-sm">🖊️</a>
+                  <button class="btn btn-secondary btn-sm w-50">More</button>
                 </div>
               </div>
         </div>
