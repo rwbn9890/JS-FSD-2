@@ -242,8 +242,17 @@
   ]
 
 
+let cart = JSON.parse(localStorage.getItem("cart")) || []
 
  let row = document.getElementById("row")
+ let cartBody = document.getElementById("cart-body")
+ let search = document.getElementById("search")
+
+
+ function setLocal(c){
+  localStorage.setItem("cart", JSON.stringify(c))
+  showCart()
+ }
 
 
  function electronics(){
@@ -257,6 +266,45 @@ function priceLH(){
     let newData = data.sort((a, b) => a.price - b.price)
     showRow(newData)
 }
+
+
+
+
+function handleCart(id){
+  let item = data.find((el) => el.id == id )
+  cart.push(item)
+
+  setLocal(cart)
+
+}
+
+
+
+search.addEventListener("submit", function(e){
+
+      e.preventDefault();
+
+      let searchText = document.getElementById("searchText")
+
+      console.log(searchText.value)
+
+      let newData = data.filter((ele) => ele.title.toLocaleUpperCase().includes(searchText.value.toLocaleUpperCase()) || ele.category.toLocaleUpperCase().includes(searchText.value.toLocaleUpperCase())  )
+
+      showRow(newData)
+})
+
+let advSearch = document.getElementById("advSearch")
+
+advSearch.addEventListener("keyup", function(e){
+
+console.log(e.target.value)
+
+let searchText = e.target.value
+
+let newData = data.filter((ele) => ele.title.toLocaleUpperCase().includes(searchText.toLocaleUpperCase()) || ele.category.toLocaleUpperCase().includes(searchText.toLocaleUpperCase())  )
+
+showRow(newData)
+})
 
 
 
@@ -275,12 +323,51 @@ function priceLH(){
                     <span class="badge text-bg-light">$ ${ele.price}</span>
                       <h6 class="card-title">${ele.title}</h6>
                       <p class="card-text">${ele.category}</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                      <a onclick="handleCart(${ele.id})" class="btn btn-primary">Add</a>
                     </div>
                   </div>
             </div>
     `
     })
-
  }
  showRow(data)
+
+
+
+
+
+
+
+
+ function showCart(){
+  cartBody.innerHTML="";
+  cart.map((el)=>{
+    cartBody.innerHTML += `
+       <div class="col-12">
+                <div class="card h-100">
+                  <div class="row">
+                    <div class="col-4">
+                       <img src=${el.image} height="100px" class="card-img-top border" alt="...">
+                    </div>
+                    <div class="col-8">
+                      <div class="card-body  p-1"> 
+                         <h6 class="card-title">${el.title}</h6> 
+                           <p class="card-text mb-2">${el.category}</p>
+                        <div class="d-flex  justify-content-between">
+                          <span class="badge text-bg-light">$ ${el.price}</span>
+                          <span class="badge text-bg-light">⭐ ${el.rating.rate}</span>
+                        </div>
+                      
+                    
+                     
+                        <a onclick="deleteCart(${el.id})" class="btn btn-danger btn-sm">🗑️</a>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+            </div>
+    `
+  })
+ }
+
+ showCart()
