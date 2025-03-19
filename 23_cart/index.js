@@ -247,6 +247,8 @@ let cart = JSON.parse(localStorage.getItem("cart")) || []
  let row = document.getElementById("row")
  let cartBody = document.getElementById("cart-body")
  let search = document.getElementById("search")
+ let itembody = document.getElementById("itembody")
+ let total = document.getElementById("total")
 
 
  function setLocal(c){
@@ -280,6 +282,43 @@ function handleCart(id){
 
 
 
+function handleItem(id){
+  let newItem = data.find((ele) => ele.id==id)
+
+  const {image, title, category, price, rating, description} = newItem
+
+  itembody.innerHTML = `
+      <div class="card h-100">
+                  <div class="row">
+                    <div class="col-4">
+                       <img src=${image} class="card-img-top border" alt="...">
+                    </div>
+                    <div class="col-8">
+                      <div class="card-body  p-1"> 
+                         <h6 class="card-title">${title}</h6> 
+                           <div class="d-flex  justify-content-between my-2">
+                          <span class="badge text-bg-light">$ ${price}</span>
+                          <span class="badge text-bg-light">⭐ ${rating.rate}</span>
+                        </div>
+                           <p class="card-text mb-2">${category}</p>
+                           <p class="card-text mb-2">${description}</p>
+                        <a onclick="handleCart(${id})" class="btn btn-success">Add</a>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+  `
+
+}
+
+
+
+
+
+
+
+
+
 search.addEventListener("submit", function(e){
 
       e.preventDefault();
@@ -308,6 +347,9 @@ showRow(newData)
 
 
 
+
+
+
  function showRow(data){
     row.innerHTML="";
     data.map((ele) => {
@@ -323,7 +365,8 @@ showRow(newData)
                     <span class="badge text-bg-light">$ ${ele.price}</span>
                       <h6 class="card-title">${ele.title}</h6>
                       <p class="card-text">${ele.category}</p>
-                      <a onclick="handleCart(${ele.id})" class="btn btn-primary">Add</a>
+                      <a onclick="handleCart(${ele.id})" class="btn btn-success">Add</a>
+                      <a onclick="handleItem(${ele.id})" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-warning">More</a>
                     </div>
                   </div>
             </div>
@@ -331,10 +374,6 @@ showRow(newData)
     })
  }
  showRow(data)
-
-
-
-
 
 
 
@@ -357,17 +396,49 @@ showRow(newData)
                           <span class="badge text-bg-light">$ ${el.price}</span>
                           <span class="badge text-bg-light">⭐ ${el.rating.rate}</span>
                         </div>
-                      
                     
-                     
                         <a onclick="deleteCart(${el.id})" class="btn btn-danger btn-sm">🗑️</a>
+                           <a onclick="handleItem(${el.id})" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-warning">More</a>
                       </div>
-                    </div>
-                  </div>
-                  </div>
+                      </div>
+                      </div>
+                      </div>
+                     
             </div>
     `
+
   })
+
+  total.innerHTML = ` 
+  
+  <div class="container bg-light text-dark rounded-2">
+            <div class="row g-2">
+              <div class="col-4 p-3">
+                Total: <span class="badge p-3 text-bg-dark">${cart.reduce(( sum, ele) => ele.price +sum, 0)}</span>
+              </div>
+              <div class="col-4 p-3">
+                offer:
+              </div>
+              <div class="col-4 p-3">item No: ${cart.length}</div>
+            </div>
+        </div>
+  `
+
  }
 
  showCart()
+
+
+
+
+
+
+
+// let sum =0
+//  cart.forEach(ele=> {
+//     sum = sum + ele.price
+//  });
+
+
+ let sum = 
+ console.log()
