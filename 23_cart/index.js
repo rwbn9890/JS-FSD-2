@@ -242,7 +242,11 @@
   ]
 
 
+
+
 let cart = JSON.parse(localStorage.getItem("cart")) || []
+
+
 
  let row = document.getElementById("row")
  let cartBody = document.getElementById("cart-body")
@@ -250,9 +254,17 @@ let cart = JSON.parse(localStorage.getItem("cart")) || []
  let itembody = document.getElementById("itembody")
  let total = document.getElementById("total")
 
+ function getLocal(){
+  cart = JSON.parse(localStorage.getItem("cart")) || []
+ }
+
+
+ let total_price = cart.reduce(( sum, ele) => ele.price*ele.count + sum, 0)
 
  function setLocal(c){
   localStorage.setItem("cart", JSON.stringify(c))
+   total_price = cart.reduce(( sum, ele) => ele.price*ele.count + sum, 0)
+  getLocal()
   showCart()
  }
 
@@ -273,13 +285,21 @@ function priceLH(){
 
 
 function handleCart(id){
+
   let item = data.find((el) => el.id == id )
+
+  item.count = 1;
   cart.push(item)
 
   setLocal(cart)
 
 }
 
+
+function deleteCart(id){
+  let newCart = cart.filter((ele) => ele.id != id)
+  setLocal(newCart)
+}
 
 
 function handleItem(id){
@@ -377,13 +397,59 @@ showRow(newData)
 
 
 
+ 
+let val;
+ function addOffer(){
+
+ total_price =  cart.reduce(( sum, ele) => ele.price*ele.count +sum, 0)
+ let code = document.getElementById("code");
+
+ if(code.value == "red30"){
+  //  percentage = 400/500 * 100
+
+    val = 30*total_price/100
+    console.log()
+    total_price = total_price-val
+
+    showCart()
+ }
+
+}
+
+
+
+function handleIncCount(id){
+  let newCart = cart.find((ele) => ele.id == id)
+  newCart.count++;
+
+  cart.map((ele) => {
+    if(ele.id==id){
+      ele = newCart
+    }
+  })
+  setLocal(cart)
+}
+
+function handleDecCount(id){
+  let newCart = cart.find((ele) => ele.id == id)
+  newCart.count--;
+
+  cart.map((ele) => {
+    if(ele.id==id){
+      ele = newCart
+    }
+  })
+  setLocal(cart)
+}
+
+
 
  function showCart(){
   cartBody.innerHTML="";
   cart.map((el)=>{
     cartBody.innerHTML += `
        <div class="col-12">
-                <div class="card h-100">
+                <div class="card h-100 position-relative">
                   <div class="row">
                     <div class="col-4">
                        <img src=${el.image} height="100px" class="card-img-top border" alt="...">
@@ -396,9 +462,13 @@ showRow(newData)
                           <span class="badge text-bg-light">$ ${el.price}</span>
                           <span class="badge text-bg-light">⭐ ${el.rating.rate}</span>
                         </div>
-                    
-                        <a onclick="deleteCart(${el.id})" class="btn btn-danger btn-sm">🗑️</a>
-                           <a onclick="handleItem(${el.id})" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-warning">More</a>
+                        <div class="btn-group ">
+                          <button onclick="handleDecCount(${el.id})" class="btn btn-danger btn-sm">-</button>
+                          <button class="btn btn-light btn-sm" disabled>${el.count}</button>
+                          <button onclick="handleIncCount(${el.id})" class="btn btn-success btn-sm">+</button>
+                        </div>
+                        <a onclick="deleteCart(${el.id})" class="btn btn-outline-secondary rounded-circle border-0  btn-sm position-absolute " style="right:5px; top:5px">🗑️</a>
+                           <a onclick="handleItem(${el.id})" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-warning btn-sm">More</a>
                       </div>
                       </div>
                       </div>
@@ -408,18 +478,29 @@ showRow(newData)
     `
 
   })
-
+  total.innerHTML = ""
   total.innerHTML = ` 
-  
   <div class="container bg-light text-dark rounded-2">
             <div class="row g-2">
               <div class="col-4 p-3">
-                Total: <span class="badge p-3 text-bg-dark">${cart.reduce(( sum, ele) => ele.price +sum, 0)}</span>
+                Total: <span class="badge p-3 text-bg-dark">${Math.round(total_price)}</span>
               </div>
-              <div class="col-4 p-3">
+              <div class="col-5 p-3">
                 offer:
+                  <div class="d-flex">
+                    <input class="form-control form-control-sm" id="code" />
+                    <button onclick="addOffer()" class="btn btn-warning btn-sm">Apply</button>
+                  </div>
               </div>
-              <div class="col-4 p-3">item No: ${cart.length}</div>
+              <div class="col-2 p-3">No: ${cart.length}</div>
+            </div>
+            <div class="row m-2 p-2">
+            ${
+              val ? ` <span class="bg-warning rounded-2 p-2">
+              you save ${val} on this order
+            </span>` : ``
+            }
+           
             </div>
         </div>
   `
@@ -431,14 +512,3 @@ showRow(newData)
 
 
 
-
-
-
-// let sum =0
-//  cart.forEach(ele=> {
-//     sum = sum + ele.price
-//  });
-
-
- let sum = 
- console.log()
