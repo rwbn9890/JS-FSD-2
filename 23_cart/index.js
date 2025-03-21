@@ -243,6 +243,7 @@
 
 
 
+let login = JSON.parse(sessionStorage.getItem("login"))
 
 let cart = JSON.parse(localStorage.getItem("cart")) || []
 
@@ -286,6 +287,9 @@ function priceLH(){
 
 function handleCart(id){
 
+if(login)
+{
+  
   let item = data.find((el) => el.id == id )
 
   item.count = 1;
@@ -294,6 +298,21 @@ function handleCart(id){
   setLocal(cart)
 
 }
+else{
+  location.href="login.html"
+}
+
+
+}
+
+
+function logout(){
+  sessionStorage.removeItem("login")
+  location.href="login.html"
+}
+
+
+
 
 
 function deleteCart(id){
